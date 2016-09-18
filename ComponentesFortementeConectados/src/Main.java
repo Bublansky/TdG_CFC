@@ -170,14 +170,16 @@ class Main
         {
             for(int u = vertices ; u > 0 ; u--)
             {
-                cor[verticesSaidaCrescente[u]] = BRANCO;
+                cor[u] = BRANCO;
                 //anterior[verticesSaidaCrescente[u]] = -1;
             }
             //tempo = 0;
             for(int u = vertices ; u > 0 ; u--)
             {
+                
                 if(cor[verticesSaidaCrescente[u]].equals(BRANCO))
                 {
+                    System.out.println("o vertice "+verticesSaidaCrescente[u]+" eh branco");
                     cfc++;
                     DFS_Visita_Gt(verticesSaidaCrescente[u]);
                 }
