@@ -19,6 +19,7 @@ class Main
             }
         }
         System.out.println(g.GetComponentesFortementeConectados());
+        
         //g.ImprimirAdjacencias();
     }
     
@@ -59,7 +60,6 @@ class Main
         private void ordenarVerticesComMaiorTempoDeSaida()
         {
             int copiaSaida[] = saida.clone();
-            int aux;
             
             int minimun;
             for(int i = 1 ; i <= vertices ; i++)
@@ -75,60 +75,8 @@ class Main
                 verticesSaidaCrescente[i] = minimun;
                 copiaSaida[minimun] = Integer.MAX_VALUE;
             }
-            
-            //verticesSaidaDecrescente = saida.clone();
-            //Mergesort_ND(verticesSaidaDecrescente, 1, vertices);
-           
-            //ImprimirVetor(verticesSaidaDecrescente);
-            //Mergesort_ND(saida, 1, vertices);
-            //ImprimirVetor(saida);
         }
-        private void Merge(int A[], int p, int q, int r)
-        {
-            int a, b, i, j;
-            
-            a = q - p + 1;
-            b = r - q;
-            
-            int esq[] = new int[a+1], dir[] = new int[b+1];
-            
-            for(i = 0 ; i < a ; i++)
-            {
-                esq[i] = A[p+i];
-            }
-            for(j = 0 ; j < b ; j++)
-            {
-                dir[j] = A[q+j+1];
-            }
-            esq[a] = Integer.MAX_VALUE;
-            dir[b] = Integer.MAX_VALUE;
-            i = j = 0;
-            for(int k = p ; k <= r ; k++)
-            {
-                if(esq[i] <= dir[j])
-                {
-                    A[k] = esq[i];
-                    i++;
-                }
-                else
-                {
-                    A[k] = dir[j];
-                    j++;
-                }
-            }
-        }
-        private void Mergesort_ND(int A[], int p, int r)
-        {
-            int q;
-            if(p < r)
-            {
-                q = Math.floorDiv(p + r, 2);
-                //q = floor((p + r) / 2);
-                Mergesort_ND(A, p, q);
-                Mergesort_ND(A, q + 1, r);
-                Merge(A, p, q, r);
-            }
-        }
+       
         public void DFS()
         {
             for(int u = 1 ; u <= vertices ; u++)
@@ -168,18 +116,19 @@ class Main
         
         public void DFS_Gt()
         {
-            for(int u = vertices ; u > 0 ; u--)
+            int u;
+            for(u = vertices ; u > 0 ; u--)
             {
                 cor[u] = BRANCO;
                 //anterior[verticesSaidaCrescente[u]] = -1;
             }
             //tempo = 0;
-            for(int u = vertices ; u > 0 ; u--)
+            for(u = vertices ; u > 0 ; u--)
             {
-                
+                //System.out.println("testando o "+verticesSaidaCrescente[u]);
                 if(cor[verticesSaidaCrescente[u]].equals(BRANCO))
                 {
-                    System.out.println("o vertice "+verticesSaidaCrescente[u]+" eh branco");
+                    //System.out.println("o vertice " + verticesSaidaCrescente[u]+" eh branco");
                     cfc++;
                     DFS_Visita_Gt(verticesSaidaCrescente[u]);
                 }
@@ -190,14 +139,17 @@ class Main
             //tempo++;
             //chegada[u] = tempo;
             cor[u] = CINZA;
+            //System.out.println("visitando " + u);
+
             for(int v = 1 ; v <= vertices ; v++)    //para cada vertice adjacente a u
             {
                 if(getAresta(v, u) == 1)    //se tiver aresta de v para u
                 {
+                    //System.out.println("vizinho transposto de " +u+ ": " + v);
                     if(cor[v].equals(BRANCO))
                     {
                         //anterior[u] = v;
-                        DFS_Visita(v);  //visita v
+                        DFS_Visita_Gt(v);  //visita v
                     }
                 }
             }
